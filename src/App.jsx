@@ -1,9 +1,33 @@
+import { useState } from "react";
+
+import Header from "./components/Header";
+import AvailableMeals from "./components/AvailableMeals";
+import Cart from "./components/Cart";
+import Modal from "./components/Modal";
+
+import { useFetch } from "./hooks/useFetch";
+
 function App() {
+  const [cartIsOpen, setCartIsOpen] = useState(false);
+
+  // const {} = useFetch();
+
+  function handleAddToCart() {}
+
+  function handleOnCartClick() {
+    setCartIsOpen(true);
+  }
+
+  function handleCloseCart() {
+    setCartIsOpen(false);
+  }
   return (
     <>
-      <h1>You got this 💪</h1>
-      <p>Stuck? Not sure how to proceed?</p>
-      <p>Don't worry - we've all been there. Let's build it together!</p>
+      <Header onCartClick={handleOnCartClick} />
+      <AvailableMeals onAddToCartClick={handleAddToCart} />
+      <Modal open={cartIsOpen} close={handleCloseCart}>
+        {cartIsOpen && <Cart onClose={handleCloseCart} />}
+      </Modal>
     </>
   );
 }
