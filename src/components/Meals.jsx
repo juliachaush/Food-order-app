@@ -6,6 +6,7 @@ export default function Meals({
   onAddToCartClick,
 }) {
   const maxLength = 100;
+
   return (
     <section>
       {isLoading && <p className="fallback-text">{loadingText}</p>}
@@ -30,7 +31,7 @@ export default function Meals({
 
               <button
                 className="button meal-item-actions"
-                onClick={onAddToCartClick}
+                onClick={() => onAddToCartClick(meal)}
               >
                 Add to cart
               </button>

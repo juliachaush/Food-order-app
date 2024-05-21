@@ -1,6 +1,6 @@
 import Logo from "../assets/logo.jpg";
 
-export default function Header({ onCartClick }) {
+export default function Header({ onCartClick, onCartItemChange }) {
   return (
     <header id="main-header">
       <title id="title">
@@ -8,7 +8,7 @@ export default function Header({ onCartClick }) {
         <h1>Reactfood</h1>
       </title>
       <button className="text-button" onClick={onCartClick}>
-        Cart(3)
+        Cart({onCartItemChange})
       </button>
     </header>
   );
