@@ -65,6 +65,10 @@ function App() {
     0
   );
 
+  const filteredMealsQuantity = addToCart.filter((item) =>
+    item.quantity > 0 ? true : false
+  );
+
   const totalCartSum = addToCart
     .reduce((total, item) => total + item.quantity * item.price, 0)
     .toFixed(2);
@@ -117,7 +121,11 @@ function App() {
       </Modal>
       <Modal open={formIsOpen} close={handleCloseForm}>
         {formIsOpen && (
-          <Checkout totalCartSum={totalCartSum} onClose={handleCloseForm} />
+          <Checkout
+            totalCartSum={totalCartSum}
+            onClose={handleCloseForm}
+            addToCart={addToCart}
+          />
         )}
       </Modal>
     </>

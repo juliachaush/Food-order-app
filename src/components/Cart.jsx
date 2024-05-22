@@ -13,12 +13,13 @@ export default function Cart({
   );
 
   console.log(addToCart);
+
   return (
     <div>
       <h2>Your Cart</h2>
       <ul className="meal-item-actions">
         {filteredMealsQuantity.map((meal) => (
-          <li key={addToCart.id} className="cart-item">
+          <li key={meal.id} className="cart-item">
             <p>
               {meal.name} {meal.quantity} x ${meal.price}
             </p>

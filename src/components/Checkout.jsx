@@ -3,7 +3,7 @@ import { useInput } from "../hooks/useInput";
 
 import { isEmail, isNotEmpty } from "../util/validation";
 
-export default function Checkout({ totalCartSum, onClose }) {
+export default function Checkout({ totalCartSum, onClose, addToCart }) {
   const {
     value: emailValue,
     handleInputChange: handlEmailChange,
@@ -52,31 +52,30 @@ export default function Checkout({ totalCartSum, onClose }) {
       return;
     }
 
-    // const orderData = {
-    //   name: fullNameValue,
-    //   email: emailValue,
-    //   street: streetValue,
-    //   ["postal-code"]: postalCodeValue,
-    //   city: cityValue,
-    // };
+    const orderData = {
+      name: fullNameValue,
+      email: emailValue,
+      street: streetValue,
+      "postal-code": postalCodeValue,
+      city: cityValue,
+    };
 
-    // try {
-    //   // Відправка даних на сервер
-    //   // const response = await fetch('https://example.com/api/submit', {
-    //   //   method: 'POST',
-    //   //   headers: {
-    //   //     'Content-Type': 'application/json'
-    //   //   },
-    //   //   body: JSON.stringify(data)
-    //   // });
+    const filteredMealsQuantity = addToCart.filter((item) =>
+      item.quantity > 0 ? true : false
+    );
 
-    //   // Обробка відповіді сервера
-    //   // const result = await response.json();
-    //   // console.log('Success:', result);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-    // console.log(orderData);
+    fetch("http://localhost:3000/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order: {
+          items: filteredMealsQuantity,
+          customer: orderData,
+        },
+      }),
+    });
 
     console.log(emailValue, fullNameValue);
   }
@@ -87,7 +86,7 @@ export default function Checkout({ totalCartSum, onClose }) {
 
       <Input
         label="Full Name"
-        id="fullName"
+        id="name"
         type="text"
         name="fullName"
         onBlur={handlFullNameBlur}
@@ -118,7 +117,7 @@ export default function Checkout({ totalCartSum, onClose }) {
       <div className="control-row">
         <Input
           label="Postal Code"
-          id="postalCode"
+          id="postal-code"
           type="text"
           name="postalCode"
           onBlur={handlPostalCodeBlur}
