@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 
+import { useFetch } from "./hooks/useFetch.js";
+
 import Header from "./components/Header.jsx";
 import Meals from "./components/Meals.jsx";
 import Cart from "./components/Cart.jsx";
 import Modal from "./components/Modal.jsx";
 import Error from "./components/Error.jsx";
-import Form from "./components/Form.jsx";
-
-import { useFetch } from "./hooks/useFetch.js";
+import Checkout from "./components/Checkout.jsx";
 
 function App() {
   const [cartIsOpen, setCartIsOpen] = useState(false);
+  const [formIsOpen, setFormtIsOpen] = useState(false);
   const [addToCart, setAddToCart] = useState(() => {
     const savedData = localStorage.getItem("meals");
     return savedData ? JSON.parse(savedData) : [];
@@ -23,11 +24,9 @@ function App() {
     error,
   } = useFetch();
 
-  function removeMealFromCart(meal) {
-    if (meal.quantity <= 0) {
-      setAddToCart((prevAddToCart) => prevAddToCart.filter(meal));
-    }
-  }
+  useEffect(() => {
+    localStorage.setItem("meals", JSON.stringify(addToCart));
+  }, [addToCart]);
 
   function handleAddToCart(meal) {
     const mealWithQuantity = { ...meal, quantity: 1 };
@@ -66,6 +65,10 @@ function App() {
     0
   );
 
+  const totalCartSum = addToCart
+    .reduce((total, item) => total + item.quantity * item.price, 0)
+    .toFixed(2);
+
   function handleOnCartClick() {
     setCartIsOpen(true);
   }
@@ -73,14 +76,17 @@ function App() {
     setCartIsOpen(false);
   }
 
-  useEffect(() => {
-    localStorage.setItem("meals", JSON.stringify(addToCart));
-  }, [addToCart]);
+  function handleCloseForm() {
+    setFormtIsOpen(false);
+  }
+
+  function handleGoToChackout() {
+    setCartIsOpen(false);
+    setFormtIsOpen(true);
+  }
 
   return (
     <>
-      <Form />
-
       <Header
         onCartClick={handleOnCartClick}
         onCartItemChange={totalQuantity}
@@ -104,7 +110,14 @@ function App() {
             addToCart={addToCart}
             onAddQuantity={handleAddToCart}
             onRemoveQuantity={handleRemoveFromCart}
+            onCheckout={handleGoToChackout}
+            totalCartSum={totalCartSum}
           />
+        )}
+      </Modal>
+      <Modal open={formIsOpen} close={handleCloseForm}>
+        {formIsOpen && (
+          <Checkout totalCartSum={totalCartSum} onClose={handleCloseForm} />
         )}
       </Modal>
     </>

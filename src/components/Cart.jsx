@@ -5,12 +5,9 @@ export default function Cart({
   addToCart,
   onAddQuantity,
   onRemoveQuantity,
+  onCheckout,
+  totalCartSum,
 }) {
-  const totalCartSum = addToCart.reduce(
-    (total, item) => total + item.quantity * item.price,
-    0
-  );
-
   const filteredMealsQuantity = addToCart.filter((item) =>
     item.quantity > 0 ? true : false
   );
@@ -38,7 +35,9 @@ export default function Cart({
         <button className="text-button" onClick={onClose}>
           Close
         </button>
-        <button className="button">Go to checkout</button>
+        <button className="button" onClick={onCheckout}>
+          Go to checkout
+        </button>
       </div>
     </div>
   );
