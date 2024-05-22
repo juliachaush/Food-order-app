@@ -5,10 +5,12 @@ function Modal({ open, children, onClose }) {
   const dialog = useRef();
 
   useEffect(() => {
+    const modal = dialog.current;
+
     if (open) {
-      dialog.current.showModal();
+      modal.showModal();
     } else {
-      dialog.current.close();
+      modal.close();
     }
   }, [open]);
 

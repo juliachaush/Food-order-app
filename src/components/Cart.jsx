@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { currencyFormatter } from "../util/formatting";
 
 export default function Cart({
   onClose,
@@ -21,7 +22,8 @@ export default function Cart({
         {filteredMealsQuantity.map((meal) => (
           <li key={meal.id} className="cart-item">
             <p>
-              {meal.name} {meal.quantity} x ${meal.price}
+              {meal.name} {meal.quantity} x{" "}
+              {currencyFormatter.format(meal.price)}
             </p>
             <div className="cart-item-actions">
               <button onClick={() => onRemoveQuantity(meal)}>-</button>
@@ -31,15 +33,19 @@ export default function Cart({
           </li>
         ))}
       </ul>
-      <div className="modal-actions meal-item-actions">${totalCartSum}</div>
-      <div className="modal-actions">
+      <div className="modal-actions meal-item-actions">
+        {currencyFormatter.format(totalCartSum)}
+      </div>
+      <p className="modal-actions">
         <button className="text-button" onClick={onClose}>
           Close
         </button>
-        <button className="button" onClick={onCheckout}>
-          Go to checkout
-        </button>
-      </div>
+        {filteredMealsQuantity.length > 0 && (
+          <button className="button" onClick={onCheckout}>
+            Go to checkout
+          </button>
+        )}
+      </p>
     </div>
   );
 }

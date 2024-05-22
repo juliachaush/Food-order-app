@@ -1,5 +1,6 @@
 import Input from "./Input";
 import { useInput } from "../hooks/useInput";
+import { currencyFormatter } from "../util/formatting";
 
 import { isEmail, isNotEmpty } from "../util/validation";
 
@@ -82,7 +83,7 @@ export default function Checkout({ totalCartSum, onClose, addToCart }) {
   return (
     <form className="control" onSubmit={handleSubmit}>
       <h2>Checkout</h2>
-      <p>Total amount ${totalCartSum}</p>
+      <p>Total amount {currencyFormatter.format(totalCartSum)}</p>
 
       <Input
         label="Full Name"
@@ -138,7 +139,7 @@ export default function Checkout({ totalCartSum, onClose, addToCart }) {
       </div>
 
       <p className="modal-actions">
-        <button className="text-button" onClose={onClose}>
+        <button className="text-button" type="button" onClose={onClose}>
           Close
         </button>
         <button className="button">Go to checkout</button>

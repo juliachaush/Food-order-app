@@ -82,6 +82,7 @@ function App() {
 
   function handleCloseForm() {
     setFormtIsOpen(false);
+    setCartIsOpen(false);
   }
 
   function handleGoToChackout() {
@@ -107,7 +108,7 @@ function App() {
           />
         )}
       </main>
-      <Modal open={cartIsOpen} close={handleCloseCart}>
+      <Modal open={cartIsOpen} onClose={handleCloseCart}>
         {cartIsOpen && (
           <Cart
             onClose={handleCloseCart}
@@ -119,7 +120,7 @@ function App() {
           />
         )}
       </Modal>
-      <Modal open={formIsOpen} close={handleCloseForm}>
+      <Modal open={formIsOpen} onClose={handleCloseForm}>
         {formIsOpen && (
           <Checkout
             totalCartSum={totalCartSum}
